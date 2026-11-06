@@ -1,0 +1,6 @@
+import { SiteHeader } from "@/components/site-header";
+import { SiteFooter } from "@/components/site-footer";
+
+export default function AboutPage() {
+  return <><SiteHeader /><main className="container min-h-[70vh] py-16"><p className="text-sm font-bold uppercase tracking-[.15em] text-[var(--brand)]">About the platform</p><h1 className="mt-3 text-4xl font-black">A learning platform built to grow.</h1><p className="mt-6 max-w-2xl text-lg leading-8 text-[var(--muted)]">ApparxMath is an education project focused on making mathematics clearer and more accessible for Cambodian students. The platform is being designed to support learners first, then teachers and schools through carefully planned tools and secure accounts.</p><div className="mt-10 grid gap-4 md:grid-cols-3">{[["Students","Lessons, practice, learning history, and progress."],["Teachers","Classrooms, assignments, assessments, and feedback."],["Schools","School-level management, roles, and reporting."]].map(([title,body])=><section key={title} className="rounded-2xl border border-[var(--line)] bg-white p-6"><h2 className="font-extrabold">{title}</h2><p className="mt-2 leading-7 text-[var(--muted)]">{body}</p></section>)}</div></main><SiteFooter /></>;
+}
