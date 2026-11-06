@@ -1,28 +1,186 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Khmer:wght@400;500;600;700;800&display=swap");
 @import "tailwindcss";
 
+/* ApparxMath shared design tokens. Keep these names stable: pages use them. */
 :root {
+  color-scheme: light;
   --ink: #14213d;
-  --muted: #667085;
+  --muted: #5d6b82;
   --paper: #f7f9fc;
-  --line: #e6eaf0;
+  --line: #e2e8f0;
   --brand: #3157d5;
   --brand-dark: #2444b5;
   --mint: #dff7ee;
+  --surface: #ffffff;
+  --surface-soft: #f8fafc;
+  --link: #3157d5;
+  --focus: #3157d5;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --ink: #edf2ff;
+  --muted: #b9c6d9;
+  --paper: #0b1220;
+  --line: #33445d;
+  /* Keep brand backgrounds dark enough for white button text. */
+  --brand: #3157d5;
+  --brand-dark: #2444b5;
+  --mint: #14372f;
+  --surface: #111c2d;
+  --surface-soft: #172338;
+  --link: #b9c9ff;
+  --focus: #9bb4ff;
 }
 
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 body {
   margin: 0;
+  min-height: 100vh;
   background: var(--paper);
   color: var(--ink);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Inter", "Noto Sans Khmer", "Khmer OS Battambang", "Khmer OS System", "Segoe UI", Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.7;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
+
+/* Use a Khmer-specific web font for Khmer passages, with local fallbacks. */
+[lang="km"], :lang(km) {
+  font-family: "Noto Sans Khmer", "Khmer OS Battambang", "Khmer OS System", "Leelawadee UI", sans-serif;
+  font-weight: 500;
+  line-height: 1.95;
+  letter-spacing: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--ink);
+  font-weight: 800;
+  line-height: 1.3;
+  letter-spacing: -0.018em;
+}
+
+p, li, label, button, input, textarea, select, summary {
+  line-height: 1.75;
+}
+strong, b { font-weight: 800; }
+button { font-weight: 700; }
 a { color: inherit; text-decoration: none; }
 button, a { -webkit-tap-highlight-color: transparent; }
-::selection { background: #dbe5ff; }
+button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible, summary:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+::selection { background: #dbe5ff; color: #14213d; }
 
 .container {
   width: min(1120px, calc(100% - 40px));
   margin-inline: auto;
+}
+
+/* Dark surfaces: map common Tailwind utilities to deliberate, readable colors. */
+:root[data-theme="dark"] body {
+  background: var(--paper);
+  color: #e7edf8;
+}
+:root[data-theme="dark"] .bg-white { background-color: var(--surface) !important; }
+:root[data-theme="dark"] .bg-slate-50,
+:root[data-theme="dark"] .bg-gray-50 { background-color: var(--surface-soft) !important; }
+:root[data-theme="dark"] .bg-slate-100,
+:root[data-theme="dark"] .bg-gray-100 { background-color: #202e43 !important; }
+:root[data-theme="dark"] .bg-slate-200,
+:root[data-theme="dark"] .bg-gray-200 { background-color: #293a52 !important; }
+:root[data-theme="dark"] .bg-blue-50 { background-color: #172b4b !important; }
+:root[data-theme="dark"] .bg-blue-100 { background-color: #1d355b !important; }
+:root[data-theme="dark"] .bg-indigo-50 { background-color: #20264a !important; }
+:root[data-theme="dark"] .bg-emerald-50 { background-color: #12352f !important; }
+:root[data-theme="dark"] .bg-amber-50 { background-color: #3a2b15 !important; }
+:root[data-theme="dark"] .bg-red-50 { background-color: #3b2028 !important; }
+
+/* Neutral text and headings. */
+:root[data-theme="dark"] .text-slate-950,
+:root[data-theme="dark"] .text-slate-900,
+:root[data-theme="dark"] .text-slate-800,
+:root[data-theme="dark"] .text-slate-700,
+:root[data-theme="dark"] .text-gray-900,
+:root[data-theme="dark"] .text-gray-800,
+:root[data-theme="dark"] .text-gray-700 { color: #e7edf8 !important; }
+:root[data-theme="dark"] .text-slate-600,
+:root[data-theme="dark"] .text-slate-500,
+:root[data-theme="dark"] .text-slate-400,
+:root[data-theme="dark"] .text-gray-600,
+:root[data-theme="dark"] .text-gray-500,
+:root[data-theme="dark"] .text-gray-400 { color: #b9c6d9 !important; }
+:root[data-theme="dark"] .text-blue-950,
+:root[data-theme="dark"] .text-blue-900,
+:root[data-theme="dark"] .text-blue-800,
+:root[data-theme="dark"] .text-blue-700 { color: #c3d2ff !important; }
+:root[data-theme="dark"] .text-emerald-950,
+:root[data-theme="dark"] .text-emerald-900,
+:root[data-theme="dark"] .text-emerald-800,
+:root[data-theme="dark"] .text-emerald-700 { color: #a9ead6 !important; }
+:root[data-theme="dark"] .text-amber-950,
+:root[data-theme="dark"] .text-amber-900,
+:root[data-theme="dark"] .text-amber-800,
+:root[data-theme="dark"] .text-amber-700 { color: #ffdf9b !important; }
+:root[data-theme="dark"] .text-red-900,
+:root[data-theme="dark"] .text-red-800,
+:root[data-theme="dark"] .text-red-700 { color: #ffb7c2 !important; }
+:root[data-theme="dark"] [class~="text-[var(--brand)]"] { color: var(--link) !important; }
+:root[data-theme="dark"] [class~="text-[var(--muted)]"] { color: var(--muted) !important; }
+
+/* Borders, inputs and interactive controls. */
+:root[data-theme="dark"] .border-slate-50,
+:root[data-theme="dark"] .border-slate-100,
+:root[data-theme="dark"] .border-slate-200,
+:root[data-theme="dark"] .border-gray-100,
+:root[data-theme="dark"] .border-gray-200,
+:root[data-theme="dark"] .border-blue-100 { border-color: #33445d !important; }
+:root[data-theme="dark"] .border-emerald-200 { border-color: #246b59 !important; }
+:root[data-theme="dark"] .border-amber-200 { border-color: #795a27 !important; }
+:root[data-theme="dark"] input,
+:root[data-theme="dark"] textarea,
+:root[data-theme="dark"] select {
+  background-color: #0d1727;
+  color: #e7edf8;
+  border-color: #435570;
+}
+:root[data-theme="dark"] input::placeholder,
+:root[data-theme="dark"] textarea::placeholder { color: #9aabc2; opacity: 1; }
+:root[data-theme="dark"] input:disabled,
+:root[data-theme="dark"] textarea:disabled,
+:root[data-theme="dark"] button:disabled { opacity: 0.65; }
+:root[data-theme="dark"] .hover\:bg-slate-50:hover,
+:root[data-theme="dark"] .hover\:bg-gray-50:hover { background-color: #202e43 !important; }
+:root[data-theme="dark"] .hover\:bg-blue-50:hover { background-color: #20395f !important; }
+:root[data-theme="dark"] .shadow-sm,
+:root[data-theme="dark"] .shadow-lg,
+:root[data-theme="dark"] .shadow-2xl { --tw-shadow-color: rgb(0 0 0 / 0.28); }
+
+/* Keep accent text readable inside its tinted panels. */
+:root[data-theme="dark"] .bg-emerald-50 .text-emerald-950,
+:root[data-theme="dark"] .bg-emerald-50 .text-emerald-900,
+:root[data-theme="dark"] .bg-emerald-50 .text-emerald-800 { color: #b8f3e2 !important; }
+:root[data-theme="dark"] .bg-blue-50 .text-blue-950,
+:root[data-theme="dark"] .bg-blue-50 .text-blue-900,
+:root[data-theme="dark"] .bg-blue-50 .text-blue-800 { color: #cbd8ff !important; }
+:root[data-theme="dark"] .bg-amber-50 .text-amber-950,
+:root[data-theme="dark"] .bg-amber-50 .text-amber-900 { color: #ffe5ad !important; }
+
+@media (max-width: 640px) {
+  body { font-size: 16px; }
+  .container { width: min(100% - 28px, 1120px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
 }
