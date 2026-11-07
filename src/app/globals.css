@@ -184,3 +184,49 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
     animation-iteration-count: 1 !important;
   }
 }
+
+/* Formula panels keep the expression and its contextual symbol guide together. */
+.formula-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(15rem, 0.85fr);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  background: var(--surface);
+  color: var(--ink);
+}
+.formula-card__math {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  overflow-x: auto;
+  padding: 1.25rem 1.5rem;
+  background: var(--surface-soft);
+}
+.formula-card__expression {
+  display: block;
+  min-width: max-content;
+  font-family: "Cambria Math", "STIX Two Math", "Times New Roman", "Noto Sans Khmer", serif;
+  font-size: clamp(1.5rem, 2vw, 1.875rem);
+  font-weight: 800;
+  line-height: 1.6;
+  letter-spacing: 0;
+  white-space: normal;
+}
+.formula-card__expression sup { font-size: 0.68em; }
+.formula-card__guide {
+  min-width: 0;
+  padding: 1rem 1.25rem;
+  border-left: 1px solid var(--line);
+  background: var(--surface);
+}
+.formula-card__heading { margin: 0 0 0.5rem; color: var(--muted); font-size: 0.75rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; }
+.formula-card__guide ul { display: grid; gap: 0.55rem; margin: 0; padding: 0; list-style: none; }
+.formula-card__guide li { display: grid; grid-template-columns: minmax(2.75rem, auto) 1fr; gap: 0.55rem; font-size: 0.82rem; line-height: 1.55; }
+.formula-card__symbol { color: var(--brand); font-family: "Cambria Math", "Times New Roman", serif; font-size: 1rem; }
+.formula-card__note { margin: 0; color: var(--muted); font-size: 0.82rem; }
+@media (max-width: 767px) {
+  .formula-card { grid-template-columns: minmax(0, 1fr); }
+  .formula-card__math { padding: 1rem; }
+  .formula-card__guide { border-top: 1px solid var(--line); border-left: 0; padding: 0.9rem 1rem 1rem; }
+}

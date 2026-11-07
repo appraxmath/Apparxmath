@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
+import { MathText, normalizeSuperscriptInput } from "@/components/math-text";
 
 type GraphResult = {
   path: string;
@@ -51,7 +52,7 @@ function tokenize(source: string): string[] {
 }
 
 function compileExpression(source: string): (x: number) => number {
-  const cleaned = source.replace(/^\s*y\s*=\s*/i, "").trim();
+  const cleaned = normalizeSuperscriptInput(source).replace(/^\s*y\s*=\s*/i, "").trim().replace(/[−–]/g, "-").replace(/×/g, "*").replace(/÷/g, "/");
   if (cleaned.length > 100) {
     throw new Error("Please keep the expression under 100 characters.");
   }
@@ -254,7 +255,7 @@ export default function ExponentialGraphPage() {
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div>
                 <p className="text-xs font-bold uppercase tracking-wider text-slate-400">Live graph</p>
-                <p className="mt-1 text-lg font-extrabold">y = {expression || "…"}</p>
+                <MathText className="mt-1 block text-lg font-extrabold" text={`y = ${expression || "…"}`} />
               </div>
               <span className="rounded-full bg-emerald-50 px-3 py-1.5 text-xs font-bold text-emerald-700">Auto-updating</span>
             </div>
@@ -306,7 +307,7 @@ export default function ExponentialGraphPage() {
                 {examples.map((example) => (
                   <button key={example.value} type="button" onClick={() => setExpression(example.value)} className="rounded-xl border border-slate-200 px-3 py-2.5 text-left transition hover:border-[var(--brand)] hover:bg-blue-50">
                     <span className="block text-xs text-slate-500">{example.label}</span>
-                    <span className="mt-1 block font-mono text-sm font-bold text-[var(--ink)]">{example.value}</span>
+                    <MathText className="mt-1 block font-mono text-sm font-bold text-[var(--ink)]" text={example.value} />
                   </button>
                 ))}
               </div>

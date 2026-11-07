@@ -6,6 +6,8 @@ import nerdamer from "nerdamer";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { useAppPreferences } from "@/components/app-preferences";
+import { MathText, normalizeSuperscriptInput } from "@/components/math-text";
+import { FormulaCard } from "@/components/formula-card";
 
 type Operation = "solve" | "simplify" | "factor" | "differentiate" | "integrate";
 type Step = { titleEn: string; titleKm: string; bodyEn: string; bodyKm: string };
@@ -109,7 +111,7 @@ const historyByOperation: Record<Operation, History> = {
 };
 
 function normalizeInput(input: string) {
-  const cleaned = input.trim().replace(/−/g, "-").replace(/×/g, "*").replace(/÷/g, "/");
+  const cleaned = normalizeSuperscriptInput(input).trim().replace(/−/g, "-").replace(/×/g, "*").replace(/÷/g, "/");
   if (!cleaned) throw new Error("Enter a mathematical expression first.");
   if (cleaned.length > 180) throw new Error("Please keep the expression under 180 characters.");
   const equalityParts = cleaned.split("=");
@@ -356,7 +358,7 @@ export default function Solv3Page() {
           <section className="mt-8 space-y-6" aria-live="polite">
             <div className="rounded-3xl border border-emerald-200 bg-emerald-50 p-5 sm:p-7">
               <p className="text-xs font-bold uppercase tracking-wide text-emerald-800">{isKhmer ? "ចម្លើយ" : "Answer"}</p>
-              <p className="mt-3 break-words font-mono text-2xl font-black text-emerald-950">{result.answer}</p>
+              <MathText className="mt-3 block break-words font-mono text-2xl font-black text-emerald-950" text={result.answer} />
             </div>
 
             <div className="rounded-3xl border border-[var(--line)] bg-white p-5 sm:p-7">
@@ -367,11 +369,11 @@ export default function Solv3Page() {
                     <div className="grid gap-4 md:grid-cols-2 md:gap-6">
                       {(showBoth || !isKhmer) && <div>
                         <h3 className="font-extrabold">{step.titleEn}</h3>
-                        <p className="mt-2 text-sm leading-7 text-slate-600">{step.bodyEn}</p>
+                        <MathText className="mt-2 block text-sm leading-7 text-slate-600" text={step.bodyEn} />
                       </div>}
                       {(showBoth || isKhmer) && <div className="border-t border-slate-100 pt-4 md:border-l md:border-t-0 md:pl-6 md:pt-0">
                         <h3 className="font-extrabold">{step.titleKm}</h3>
-                        <p className="mt-2 text-sm leading-7 text-slate-600">{step.bodyKm}</p>
+                        <MathText className="mt-2 block text-sm leading-7 text-slate-600" lang="km" text={step.bodyKm} />
                       </div>}
                     </div>
                   </article>
@@ -383,9 +385,9 @@ export default function Solv3Page() {
               <article className="rounded-3xl border border-[var(--line)] bg-white p-5 sm:p-7">
                 <p className="text-xs font-bold uppercase tracking-wide text-[var(--brand)]">{isKhmer ? "ទ្រឹស្តី និងរូបមន្ត" : "Theory and formula"}</p>
                 <h2 className="mt-2 text-xl font-black">{isKhmer ? result.theory.nameKm : result.theory.nameEn}</h2>
-                <p className="mt-4 overflow-x-auto rounded-xl bg-slate-50 p-4 font-mono text-base font-bold text-[var(--ink)]">{result.theory.formula}</p>
-                {(showBoth || !isKhmer) && <p className="mt-4 text-sm leading-7 text-slate-600">{result.theory.explainEn}</p>}
-                {(showBoth || isKhmer) && <p className="mt-3 text-sm leading-7 text-slate-600">{result.theory.explainKm}</p>}
+                <FormulaCard formula={result.theory.formula} context={`${result.theory.nameEn}. ${result.theory.explainEn}`} />
+                {(showBoth || !isKhmer) && <MathText className="mt-4 block text-sm leading-7 text-slate-600" text={result.theory.explainEn} />}
+                {(showBoth || isKhmer) && <MathText className="mt-3 block text-sm leading-7 text-slate-600" lang="km" text={result.theory.explainKm} />}
               </article>
 
               <article className="rounded-3xl border border-[var(--line)] bg-white p-5 sm:p-7">

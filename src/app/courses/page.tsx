@@ -2,6 +2,7 @@ import Link from "next/link";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { chapters } from "@/lib/grade11-advanced-math";
+import { MathText } from "@/components/math-text";
 
 export default function CoursesPage() {
   const totalHours = chapters.reduce((sum, chapter) => sum + chapter.hours, 0);
@@ -63,8 +64,8 @@ export default function CoursesPage() {
                     <p className="mt-1 text-base font-bold leading-7 text-slate-600" lang="km">{chapter.title.km}</p>
                   </div>
                 </div>
-                <p className="mt-4 text-sm font-medium leading-7 text-[var(--muted)]">{chapter.introduction.en}</p>
-                <p className="mt-2 text-sm font-medium leading-7 text-[var(--muted)]" lang="km">{chapter.introduction.km}</p>
+                <MathText className="mt-4 block text-sm font-medium leading-7 text-[var(--muted)]" text={chapter.introduction.en} />
+                <MathText className="mt-2 block text-sm font-medium leading-7 text-[var(--muted)]" lang="km" text={chapter.introduction.km} />
                 <div className="mt-4 flex flex-wrap gap-2">
                   <span className="rounded-lg bg-blue-50 px-3 py-1.5 text-xs font-bold text-blue-800">{chapter.lessons.length} guided lessons</span>
                   <span className="rounded-lg bg-slate-100 px-3 py-1.5 text-xs font-bold text-slate-700">{chapter.syllabus.length} syllabus areas</span>
